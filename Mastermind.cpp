@@ -31,13 +31,22 @@ void generation_combi(Combinaison & c){
 
 }
 
+void jouer(Combinaison & c){
+    int n1,n2,n3,n4;
+    cin >> n1 >> n2 >> n3 >> n4;
+    c.setn1(n1);
+    c.setn2(n2);
+    c.setn3(n3);
+    c.setn4(n4);
+}
 
 
 int main(void){
-    Combinaison cache;
-    generation_combi(cache);
-    affiche_combi(cache);
+    Combinaison cache,pred,res;
+    //generation_combi(cache);
+    //affiche_combi(cache);
     
-
+    jouer(pred);
+    affiche_combi(pred);
     
 }
