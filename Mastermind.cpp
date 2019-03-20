@@ -4,12 +4,11 @@
 #include <stdlib.h>
 #include <vector>
 #include <algorithm>
+#include <string>
+#include<conio.h>
 
 using namespace std;
 
-void affiche_combi(Combinaison c){
-    cout << c.getn1() << "." << c.getn2() <<"." << c.getn3() <<"." << c.getn4() <<endl;
-}
 int myrandom (int i){
     return rand()%i;
 }
@@ -24,29 +23,79 @@ void generation_combi(Combinaison & c){
 
     random_shuffle( vec.begin(), vec.end() , myrandom );
 
-    c.setn1(vec[1]);
-    c.setn2(vec[2]);
-    c.setn3(vec[3]);
-    c.setn4(vec[4]);
+    c.setCache(vec);
 
 }
 
-void jouer(Combinaison & c){
-    int n1,n2,n3,n4;
-    cin >> n1 >> n2 >> n3 >> n4;
-    c.setn1(n1);
-    c.setn2(n2);
-    c.setn3(n3);
-    c.setn4(n4);
+void jouer(vector<int> & vec, Combinaison & c){ // A faire: Vérif de la saisie.
+    int n = 0;
+    int temp;
+    
+    while (n != 4){
+        cin >> temp;
+        //printf("\x0d");
+        printf("\027[1A");
+        vec.push_back(temp);
+        n++;
+    }
+    c.setPred(vec);
 }
 
+void compare(Combinaison & c,int & exact,int & presque){
+    for (int i = 0; i < c.sizePred(); i++){
+        if (c.getPred(i) == c.getCache(i)){
+            exact++;
+        }else{
+            int n = 0;
+            for (int j = 0; j < c.sizePred(); j++){
+                if (c.getPred(n) == c.getCache(i)){
+                    presque++;
+                }
+                n++;
+            }
+        }
+    }
+}
+
+int gagne(int var){
+    if (var == 4){
+        return 0;
+    }else{
+        return 1;
+    }
+}
 
 int main(void){
-    Combinaison cache,pred,res;
-    //generation_combi(cache);
-    //affiche_combi(cache);
+    vector<int> cache;
+    vector<int> pred;
+    vector<int> res;
+    int exact = 0, presque = 0, nbCoups = 0, win = 1;
     
-    jouer(pred);
-    affiche_combi(pred);
+    Combinaison jeu (cache,pred);
+    generation_combi(jeu);
+    jeu.afficheCache();
+
+    while (win != 0){
+        exact = 0; presque = 0;
+        if (!pred.empty()){pred.clear();}
+        jouer(pred,jeu);
+        jeu.affichePred();
+        compare(jeu,exact,presque);
+        win = gagne(exact);
+        cout << "exact: " << exact << endl;
+        cout << "presque: " << presque << endl;
+
+        nbCoups++;
+    }
     
+
+    //compare(cache,pred);
+    //cout <<"DEBUG> " <<pred[0] << "." << pred[1] <<"." << pred[2] <<"." << pred[3] <<endl;
+    // for (int i = 0; i < jeu.sizePred(); i++){
+    //     cout << jeu.getPred(i);
+    // }
+        
 }
+
+
+//Voir les exacts et presque !

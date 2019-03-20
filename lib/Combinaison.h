@@ -1,6 +1,6 @@
 #ifndef COMBINAISON_H_
 #define COMBINAISON_H_
-
+#include <vector>
 
 using namespace std;
 
@@ -8,30 +8,30 @@ class Combinaison
 {
 
 public:
+    //Cons/decons
     Combinaison();
-    Combinaison(int n1, int n2, int n3, int n4);
+    Combinaison(vector<int> cache, vector<int> pred);
     ~Combinaison();
 
-    //static void nbCombinaison();
-    int getn1();
-    void setn1(int n1);
+    //Set/get
+    int getCache(int n);
+    void setCache(vector<int> cache);
 
-    int getn2();
-    void setn2(int n2);
+    int getPred(int n);
+    void setPred(vector<int> pred);
 
-    int getn3();
-    void setn3(int n3);
+    //Méthdodes d'affichages
+    void afficheCache();
+    void affichePred();
 
-    int getn4();
-    void setn4(int n4);
-
-    friend bool operator==(Combinaison const& a, Combinaison const& b);
+    //Méthodes de jeu
+    int sizePred();
+    
 
 private:
-    int m_n1;
-    int m_n2;
-    int m_n3;
-    int m_n4;
+    vector<int> m_cache;
+    vector<int> m_pred;
+    vector<int> m_res;
     //static int compteur;
 
     
