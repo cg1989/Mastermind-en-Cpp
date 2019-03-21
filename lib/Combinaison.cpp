@@ -32,12 +32,13 @@ void Combinaison::setCache(vector<int> vec){
 int Combinaison::getPred(int n)
 {
     if (n > static_cast<int> (m_pred.size())){
-        cout << "Erreur: n trop grand" << endl;
+        cout << "Erreur: n trop grand!!!" << endl;
     }
     return m_pred[n];
 }
 
 void Combinaison::setPred(vector<int> vec){
+    m_pred.clear();
     for (int i = 0; i < static_cast<int>(vec.size()); i++){
         m_pred.push_back(vec[i]);
     }

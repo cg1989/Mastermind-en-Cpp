@@ -27,16 +27,30 @@ void generation_combi(Combinaison & c){
 
 }
 
+bool checkNumber(int number){
+    if (number == 1 || number == 2 || number == 3 || number == 4 || number == 5 || number == 6){
+        return true;
+    }else{
+        return false;
+    }
+    
+}
 void jouer(vector<int> & vec, Combinaison & c){ // A faire: Vérif de la saisie.
     int n = 0;
     int temp;
-    
+    fflush(stdin);
+
     while (n != 4){
-        cin >> temp;
-        //printf("\x0d");
-        printf("\027[1A");
-        vec.push_back(temp);
-        n++;
+        temp = static_cast<int> (getch())-48;
+        if(checkNumber(temp)){
+            if(n == 3){
+                printf("%d | ",temp);
+            }else{
+                printf("%d.",temp);
+            }
+            vec.push_back(temp);
+            n++;
+        }
     }
     c.setPred(vec);
 }
@@ -65,28 +79,81 @@ int gagne(int var){
     }
 }
 
+void affiche(int blanc,int noir){
+    for (int i = 0; i < blanc; i++){
+        if (i == blanc-1 && noir == 0){
+            printf("@");
+        }else{
+            printf("@.");
+        }
+    }
+
+    for (int i = 0; i < noir; i++){
+        if(i == noir-1){
+            printf("o");
+        }else{
+            printf("o.");
+        }  
+    }
+
+    int sum = 2 + 4 - (blanc + noir);
+    if (sum%2 == 1){
+        sum++;
+    }
+
+    for (int i = 0; i < sum;i++){
+        printf(" ");
+    }
+
+    printf("|\n");
+}
+
+void ligne(){
+    printf("+-----------+----------+\n");
+}
+
+void nbtour(int n){
+    cout << "|#" << n <<" ";
+}
+
+void titre(){
+    system("cls");
+    printf("   +---------------+\n");
+    printf("   |  MasterMind!  |\n");
+    printf("   +---------------+\n\n");
+}
+
+void msgFin(int nb){
+    cout << "Bravo!"<< endl << "Nombre de coups: " << nb << endl;
+}
+
 int main(void){
     vector<int> cache;
     vector<int> pred;
     vector<int> res;
-    int exact = 0, presque = 0, nbCoups = 0, win = 1;
+    int exact = 0, presque = 0, nbCoups = 1, win = 1;
+    
+    titre();
     
     Combinaison jeu (cache,pred);
     generation_combi(jeu);
-    jeu.afficheCache();
+    //jeu.afficheCache();
+    ligne();
 
     while (win != 0){
         exact = 0; presque = 0;
-        if (!pred.empty()){pred.clear();}
+        pred.clear();
+        nbtour(nbCoups);
         jouer(pred,jeu);
-        jeu.affichePred();
         compare(jeu,exact,presque);
         win = gagne(exact);
-        cout << "exact: " << exact << endl;
-        cout << "presque: " << presque << endl;
-
+        affiche(exact,presque);
+        ligne();
+        
         nbCoups++;
     }
+
+    msgFin(nbCoups-1);
     
 
     //compare(cache,pred);
@@ -97,5 +164,3 @@ int main(void){
         
 }
 
-
-//Voir les exacts et presque !
