@@ -51,6 +51,9 @@ void jouer(vector<int> & vec, Combinaison & c){ // A faire: Vérif de la saisie.
             vec.push_back(temp);
             n++;
         }
+        if(temp == 65){
+            exit( EXIT_SUCCESS);
+        }
     }
     c.setPred(vec);
 }
