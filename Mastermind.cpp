@@ -52,6 +52,7 @@ void jouer(vector<int> & vec, Combinaison & c){ // A faire: Vérif de la saisie.
             n++;
         }
         if(temp == 65){
+            system("cls");
             exit( EXIT_SUCCESS);
         }
     }
